@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>خانه - mahsa.daillly</title>
+  <style>
+    body {
+      font-family: Tahoma, sans-serif;
+      margin: 0; padding: 0;
+      background: #f8f9f7;
+      direction: rtl;
+      transition: background 0.3s, color 0.3s;
+    }
+    header {
+      background: #a302fa;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      cursor: default;
+    }
+    nav {
+      flex-grow: 1;
+    }
+    .nav-menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 20px;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-menu li a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+    }
+    .nav-menu li a.active,
+    .nav-menu li a:hover {
+      background-color: #7200d9;
+    }
+    main {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 10px;
+      text-align: center;
+    }
+    #homeBanner {
+      background: #7200d9;
+      color: #fff;
+      border-radius: 10px;
+      padding: 60px 20px;
+      margin-bottom: 40px;
+      box-shadow: 0 0 20px #7200d9aa;
+    }
+    #homeBanner h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+    #homeBanner p {
+      font-size: 1.3rem;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+    #homeBanner button {
+      background: #fff;
+      color: #7200d9;
+      border: none;
+      padding: 18px 50px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.2rem;
+      transition: background-color 0.3s;
+      box-shadow: 0 4px 10px #5700b2;
+    }
+    #homeBanner button:hover {
+      background-color: #eaeaea;
+    }
+
+    /* Dark Theme */
+    body.dark {
+      background: #222;
+      color: #fff;
+    }
+    body.dark #homeBanner {
+      background: #333;
+      color: #fff;
+      box-shadow: 0 0 20px #000000aa;
+    }
+
+    /* Button Styles for Theme Toggle */
+    .theme-toggle {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .theme-toggle:hover {
+      background-color: #7200d9;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>mahsa.daillly</h1>
+    <nav>
+      <ul class="nav-menu">
+        <li><a href="home.html" class="active">خانه</a></li>
+        <li><a href="products.html">تبلیغات</a></li>
+        <li><a href="#contactSection">درباره ما</a></li>
+        <li><a class="theme-toggle" id="themeToggle">تم روز/شب</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="homeBanner">
+      <h2>Welcome to mahsa.daillly site</h2>
+      <p>بهترین خدمات تبلیغات را به ما بسپارید .</p>
+      <button onclick="location.href='products.html'">مشاهده موارد و تبلیغات</button>
+    </section>
+  </main>
+
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme === 'dark') {
+      document.body.classList.add('dark');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      let theme = 'light';
+      if (document.body.classList.contains('dark')) {
+        theme = 'dark';
+      }
+      localStorage.setItem('theme', theme);
+    });
+  </script>
+</body>
+</html>

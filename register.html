@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ثبت نام</title>
+  <style>
+    body {
+      font-family: 'Vazir', Tahoma, sans-serif;
+      margin: 0; padding: 0;
+      background: #f5f7fa;
+      direction: rtl;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .container {
+      max-width: 400px;
+      margin: 100px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgb(158, 2, 248);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    h2 {
+      text-align: center;
+      color: #b904fb;
+      transition: color 0.3s ease;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      transition: color 0.3s ease;
+    }
+    input {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    button {
+      background-color: #b605f6;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #b504f5;
+    }
+    /* حالت شب */
+    body.dark {
+      background: #333;
+      color: #fff;
+    }
+    .container.dark {
+      background: #444;
+      box-shadow: 0 2px 10px #000;
+    }
+    h2.dark {
+      color: #f39cff;
+    }
+    label.dark {
+      color: #eee;
+    }
+    input.dark {
+      background: #555;
+      color: #fff;
+      border: 1px solid #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>ثبت نام</h2>
+    <form id="registerForm">
+      <label for="username">نام کاربری:</label>
+      <input type="text" id="username" required placeholder="نام کاربری خود را وارد کنید" />
+      
+      <label for="email">ایمیل:</label>
+      <input type="email" id="email" required placeholder="ایمیل خود را وارد کنید" />
+      
+      <label for="password">رمز عبور:</label>
+      <input type="password" id="password" required placeholder="رمز عبور را وارد کنید" />
+      
+      <button type="submit">ثبت نام</button>
+    </form>
+  </div>
+
+  <nav style="text-align: center; margin-top: 20px;">
+    <button id="themeToggle">تغییر تم روز/شب</button>
+  </nav>
+
+  <script>
+    const registerForm = document.getElementById('registerForm');
+    const themeToggle = document.getElementById('themeToggle');
+    const container = document.querySelector('.container');
+    const heading = document.querySelector('h2');
+    const labels = document.querySelectorAll('label');
+    const inputs = document.querySelectorAll('input');
+
+    // بارگذاری تم از localStorage
+    function loadTheme() {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark') {
+        document.body.classList.add('dark');
+        container.classList.add('dark');
+        heading.classList.add('dark');
+        labels.forEach(l => l.classList.add('dark'));
+        inputs.forEach(i => i.classList.add('dark'));
+      }
+    }
+
+    // تغییر تم با دکمه
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      container.classList.toggle('dark');
+      heading.classList.toggle('dark');
+      labels.forEach(l => l.classList.toggle('dark'));
+      inputs.forEach(i => i.classList.toggle('dark'));
+
+      // ذخیره در localStorage
+      if (document.body.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
+    });
+
+    // بارگذاری اولیه
+    loadTheme();
+
+    registerForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert(`ثبت نام با موفقیت انجام شد. خوش آمدید ${document.getElementById('username').value}!`);
+      window.location.href = 'home.html';
+    });
+  </script>
+</body>
+</html>

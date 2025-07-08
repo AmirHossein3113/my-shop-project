@@ -107,11 +107,11 @@
     .product h3 {
       margin: 0 0 10px 0;
       font-size: 1.1rem;
-      color: #363535;
+      color: #0b0b0b;
     }
     .product p {
       font-size: 0.9rem;
-      color: #494949;
+      color: #a902f6;
       flex-grow: 1;
     }
     .product .price {
@@ -131,7 +131,7 @@
       transition: background-color 0.3s ease;
     }
     .product button:hover {
-      background: #394401;
+      background: #bd39fa;
     }
     aside#cartSidebar {
       position: fixed;
@@ -139,8 +139,8 @@
       left: 0;
       height: 100%;
       width: 320px;
-      background: white;
-      box-shadow: 2px 0 10px rgba(62, 62, 62, 0.2);
+      background: rgb(255, 255, 255);
+      box-shadow: 2px 0 10px rgb(195, 0, 255);
       transform: translateX(-100%);
       transition: transform 0.3s ease;
       padding: 20px;
@@ -152,7 +152,7 @@
     }
     aside#cartSidebar h2 {
       margin-top: 0;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #ffffff;
       padding-bottom: 10px;
     }
     #cartItems {
@@ -164,7 +164,7 @@
       display: flex;
       justify-content: space-between;
       padding: 8px 0;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #ffffff;
     }
     #cartItems li button {
       background: transparent;
@@ -176,7 +176,7 @@
     }
     #closeCartBtn {
       background: #9002fd;
-      color: white;
+      color: rgb(255, 255, 255);
       border: none;
       padding: 10px;
       width: 100%;
@@ -211,22 +211,27 @@
     /* تم شب */
     body.dark-theme {
       background: #121212;
-      color: #eee;
+      color: #f9f7f7;
     }
     header.dark-theme {
-      background: #3a027a;
+      background: #9602f8;
     }
     .product.dark-theme {
-      background: #222;
-      color: #ddd;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+      background: #292828;
+      color: #fbf7f7;
+      box-shadow: 0 0 10px rgb(180, 1, 245);
     }
     .product.dark-theme button {
       background: #7200d9;
-      color: white;
+      color: rgb(255, 254, 254);
     }
     .product.dark-theme button:hover {
-      background: #5a8802;
+      background: #ae28fc;
+    }
+    .product h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.1rem;
+      color: #8402f5;
     }
   </style>
 </head>

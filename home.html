@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>خانه - mahsa.daillly</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
       font-family: Tahoma, sans-serif;
@@ -75,10 +76,11 @@
       font-size: 2.5rem;
       margin-bottom: 15px;
     }
-    #homeBanner p {
+    #typewriter {
       font-size: 1.3rem;
       margin-bottom: 25px;
       line-height: 1.6;
+      min-height: 40px;
     }
     #homeBanner button {
       background: #fff;
@@ -99,18 +101,18 @@
     /* Dark Theme */
     body.dark {
       background: #222;
-      color: #fff;
+      color: #464646;
     }
     body.dark #homeBanner {
-      background: #333;
-      color: #fff;
-      box-shadow: 0 0 20px #000000aa;
+      background: #2e2e2e;
+      color: #e9e6e6;
+      box-shadow: 0 0 20px #b002fbaa;
     }
 
     /* Button Styles for Theme Toggle */
     .theme-toggle {
       text-decoration: none;
-      color: white;
+      color: rgb(241, 235, 235);
       font-weight: bold;
       padding: 8px 15px;
       border-radius: 5px;
@@ -120,6 +122,22 @@
     }
     .theme-toggle:hover {
       background-color: #7200d9;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 0;
+      background: #a302fa;
+      margin-top: 50px;
+    }
+    footer a {
+      color: rgb(239, 236, 236);
+      margin: 0 10px;
+      font-size: 1.8rem;
+      transition: color 0.3s;
+    }
+    footer a:hover {
+      color: #cb73f7;
     }
   </style>
 </head>
@@ -139,10 +157,16 @@
   <main>
     <section id="homeBanner">
       <h2>Welcome to mahsa.daillly site</h2>
-      <p>بهترین خدمات تبلیغات را به ما بسپارید .</p>
+      <p id="typewriter"></p>
       <button onclick="location.href='products.html'">مشاهده موارد و تبلیغات</button>
     </section>
   </main>
+
+  <footer>
+    <a href="https://t.me/amaniii88888" target="_blank" title="تلگرام"><i class="fab fa-telegram"></i></a>
+    <a href="https://instagram.com/mahsa.daillly" target="_blank" title="اینستاگرام"><i class="fab fa-instagram"></i></a>
+    <a href="#" title="واتساپ"><i class="fab fa-whatsapp"></i></a>
+  </footer>
 
   <script>
     const themeToggle = document.getElementById('themeToggle');
@@ -160,6 +184,262 @@
       }
       localStorage.setItem('theme', theme);
     });
+
+    // Typewriter Effect
+    const txts = ['بهترین خدمات تبلیغات...', 'تبلیغات متنوع...', 'راهنمای آنلاین...'];
+    let count = 0;
+    let index = 0;
+    let currentTxt = '';
+    let letter = '';
+
+    (function type(){
+      if (count === txts.length) {
+        count = 0;
+      }
+      currentTxt = txts[count];
+      letter = currentTxt.slice(0, ++index);
+
+      document.getElementById('typewriter').textContent = letter;
+      if(letter.length === currentTxt.length){
+        count++;
+        index = 0;
+        setTimeout(type, 1500); // pause before next text
+      } else {
+        setTimeout(type, 100); // typing speed
+      }
+    }());
   </script>
 </body>
 </html>
+<!-- ChatBot Box -->
+<div id="chatbotContainer">
+  <div id="chatHeader" onclick="toggleChat()"> راهنمای آنلاین (کلیک کنید)🤖</div>
+  <div id="chatBox" style="display:none;">
+    <div id="chatMessages"></div>
+    <input type="text" id="userInput" placeholder="پیام خود را بنویسید..." onkeypress="if(event.key==='Enter') sendMessage()">
+    <button onclick="sendMessage()">ارسال</button>
+  </div>
+</div>
+
+<style>
+  #chatbotContainer {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 300px;
+    font-family: Tahoma, sans-serif;
+    z-index: 9999;
+  }
+  #chatHeader {
+    background: #a302fa;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 8px 8px 0 0;
+    text-align: center;
+  }
+  #chatBox {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 400px;
+    overflow: auto;
+    border-radius: 0 0 8px 8px;
+    padding: 10px;
+    transition: background 0.3s, color 0.3s;
+  }
+  #chatMessages {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+  }
+  #chatBox input {
+    width: 75%;
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+  }
+  #chatBox button {
+    width: 20%;
+    padding: 8px;
+    background: #a302fa;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  /* Dark mode for chatbot */
+  body.dark #chatBox {
+    background: #333;
+    color: #fff;
+    border: 1px solid #555;
+  }
+  body.dark #chatBox input {
+    background: #444;
+    color: #fff;
+    border: 1px solid #666;
+  }
+</style>
+
+<script>
+  const responses = {
+    "سلام": ["سلام دوست من! چطور کمکت کنم؟ 😊", "درود! چه کمکی می‌خوای؟"],
+    "خوبی": ["ممنون! شما چطوری؟", "خیلی خوبم، امیدوارم شما هم خوب باشی!"],
+    "تبلیغات": ["ما خدمات تبلیغاتی حرفه‌ای داریم. بخش تبلیغات سایت رو ببین.", "برای دیدن تبلیغات کلیک کن روی بخش 'تبلیغات' بالای صفحه."],
+    "سایت": ["ما یک سایت خدمات طراحی و تبلیغات هستیم.", "سایت ما برای کمک به کسب‌وکارهای آنلاین ساخته شده."],
+    "تماس": ["می‌تونی از تلگرام یا اینستاگرام با ما در تماس باشی.", "راه‌های تماس پایین همین صفحه هست."],
+    "درباره": ["ما تیمی از طراحان و متخصصین تبلیغات هستیم.", "در بخش درباره ما اطلاعات بیشتری هست."],
+    "کجا": ["دفتر ما به صورت آنلاین فعاله. فعلاً مکان فیزیکی نداریم.", "فعلاً فقط خدمات آنلاین ارائه می‌دیم."],
+    "چرا تبلیغات": ["تبلیغات باعث افزایش فروش و دیده شدن کسب‌وکار شما می‌شود!", "بدون تبلیغات، دیده نمی‌شوید! تبلیغات راز موفقیت برندهاست."],
+    "خداحافظ": ["خدانگهدار! هر وقت خواستی من اینجام 😊", "بدرود! به امید دیدار دوباره."],
+    "تبلیغات این سایت چطوره": ["تبلیغات این سایت عالی و کاربردی هست", "عالیه. صد در صد باعث پیشرفت تبلیغاتی شما میشه"],
+    "مورد اعتماد هستید": ["صد در صد . شما میتوانید به صفحه های مجازی ما بروید و اطلاعات بیشتری کسب کنید  یا به بخش نظرات ما بروید و نظرات دیگران را ببنید."]
+  };
+
+  const badWords = ["لعنتی", "بد", "احمق", "چرت","بی شعور"]; // کلمات نامناسب
+
+  function toggleChat() {
+    const box = document.getElementById('chatBox');
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('userInput');
+    let msg = input.value.trim();
+    if (!msg) return;
+
+    addMessage("شما", msg);
+    input.value = '';
+
+    // فیلتر کلمات بد
+    if(badWords.some(word => msg.includes(word))){
+      setTimeout(() => addMessage("راهنما", "لطفاً محترمانه صحبت کنید."), 500);
+      return;
+    }
+
+    // پاسخ‌دهی
+    let reply = "متوجه نشدم! لطفا سوالت رو واضح‌تر بپرس 😊";
+
+    Object.keys(responses).forEach(key => {
+      if (msg.includes(key)) {
+        const possibleReplies = responses[key];
+        reply = possibleReplies[Math.floor(Math.random() * possibleReplies.length)];
+      }
+    });
+
+    setTimeout(() => addMessage("راهنما", reply), 500);
+  }
+
+  function addMessage(sender, text) {
+    const msgDiv = document.createElement('div');
+    msgDiv.style.margin = "5px 0";
+    msgDiv.style.opacity = 0;
+    msgDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
+    document.getElementById('chatMessages').appendChild(msgDiv);
+    
+    // Fade In
+    setTimeout(() => { msgDiv.style.opacity = 1; msgDiv.style.transition = "opacity 0.5s"; }, 50);
+    
+    // Scroll to bottom
+    const chatMessages = document.getElementById('chatMessages');
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+</script>
+<section id="reviews" style="max-width: 700px; margin: 50px auto; padding: 0 15px;">
+  <h2 style="text-align:center; margin-bottom: 25px; font-family: Tahoma, sans-serif;">نظرات کاربران</h2>
+  <div class="review" data-id="1" style="border: 1px solid #ac06f4; border-radius: 10px; padding: 15px; margin-bottom: 20px; background: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-family: Tahoma, sans-serif;">
+    <p style="font-weight: bold; margin-bottom: 5px;">فاطمه</p>
+    <p style="margin-bottom: 10px; line-height: 1.5;">خدمات تبلیغات این سایت بسیار عالی و کاربردی بود. ممنونم!</p>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <button class="like-btn" style="cursor: pointer; border: none; background: none; font-size: 1.2rem; color: #888;">👍 <span class="like-count">12</span></button>
+      <button class="dislike-btn" style="cursor: pointer; border: none; background: none; font-size: 1.2rem; color: #888;">👎 <span class="dislike-count">2</span></button>
+    </div>
+  </div>
+  <div class="review" data-id="2" style="border: 1px solid #ae01f8; border-radius: 10px; padding: 15px; margin-bottom: 20px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-family: Tahoma, sans-serif;">
+    <p style="font-weight: bold; margin-bottom: 5px;">مهدی</p>
+    <p style="margin-bottom: 10px; line-height: 1.5;">قیمت عالی برای تبلیغاتشون در نظر گرفتن نسبت به ویو هاشون</p>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <button class="like-btn" style="cursor: pointer; border: none; background: none; font-size: 1.2rem; color: #888;">👍 <span class="like-count">19</span></button>
+      <button class="dislike-btn" style="cursor: pointer; border: none; background: none; font-size: 1.2rem; color: #888;">👎 <span class="dislike-count">3</span></button>
+    </div>
+  </div>
+  <div class="review" data-id="3" style="border: 1px solid #a404f4; border-radius: 10px; padding: 15px; margin-bottom: 20px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-family: Tahoma, sans-serif;">
+    <p style="font-weight: bold; margin-bottom: 5px;">هستی</p>
+    <p style="margin-bottom: 10px; line-height: 1.5;">پشتیبانی و راهنمای خیللی خوبی دارن و حتی در صفحات مجازیشون نیز پاسخگو هستن</p>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <button class="like-btn" style="cursor: pointer; border: none; background: none; font-size: 1.2rem; color: #888;">👍 <span class="like-count">15</span></button>
+      <button class="dislike-btn" style="cursor: pointer; border: none; background: none; font-size: 1.2rem; color: #888;">👎 <span class="dislike-count">1</span></button>
+    </div>
+  </div>
+</section>
+
+<script>
+  // بارگذاری تعداد لایک و دیس لایک از localStorage
+  document.querySelectorAll('.review').forEach(review => {
+    const id = review.getAttribute('data-id');
+    const likes = localStorage.getItem('review_like_' + id);
+    const dislikes = localStorage.getItem('review_dislike_' + id);
+    if(likes) review.querySelector('.like-count').textContent = likes;
+    if(dislikes) review.querySelector('.dislike-count').textContent = dislikes;
+
+    // حالت کلیک شده (برای جلوگیری از چندبار کلیک)
+    if(localStorage.getItem('review_liked_' + id)) {
+      review.querySelector('.like-btn').style.color = '#28a745'; // سبز
+    }
+    if(localStorage.getItem('review_disliked_' + id)) {
+      review.querySelector('.dislike-btn').style.color = '#dc3545'; // قرمز
+    }
+  });
+
+  document.querySelectorAll('.like-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const review = btn.closest('.review');
+      const id = review.getAttribute('data-id');
+      if(localStorage.getItem('review_liked_' + id)) return; // قبلا لایک شده
+      if(localStorage.getItem('review_disliked_' + id)) {
+        // اگر قبلا مخالف داده شده بود، کم کردن اون و اضافه کردن لایک
+        localStorage.removeItem('review_disliked_' + id);
+        const dislikeCountSpan = review.querySelector('.dislike-count');
+        let dislikeCount = parseInt(dislikeCountSpan.textContent);
+        dislikeCount = Math.max(0, dislikeCount - 1);
+        dislikeCountSpan.textContent = dislikeCount;
+        localStorage.setItem('review_dislike_' + id, dislikeCount);
+        review.querySelector('.dislike-btn').style.color = '#888';
+      }
+      // اضافه کردن لایک
+      const likeCountSpan = review.querySelector('.like-count');
+      let likeCount = parseInt(likeCountSpan.textContent);
+      likeCount++;
+      likeCountSpan.textContent = likeCount;
+      localStorage.setItem('review_like_' + id, likeCount);
+      localStorage.setItem('review_liked_' + id, 'true');
+      btn.style.color = '#28a745'; // سبز
+    });
+  });
+
+  document.querySelectorAll('.dislike-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const review = btn.closest('.review');
+      const id = review.getAttribute('data-id');
+      if(localStorage.getItem('review_disliked_' + id)) return; // قبلا مخالف شده
+      if(localStorage.getItem('review_liked_' + id)) {
+        // اگر قبلا لایک داده شده بود، کم کردن اون و اضافه کردن مخالف
+        localStorage.removeItem('review_liked_' + id);
+        const likeCountSpan = review.querySelector('.like-count');
+        let likeCount = parseInt(likeCountSpan.textContent);
+        likeCount = Math.max(0, likeCount - 1);
+        likeCountSpan.textContent = likeCount;
+        localStorage.setItem('review_like_' + id, likeCount);
+        review.querySelector('.like-btn').style.color = '#888';
+      }
+      // اضافه کردن مخالف
+      const dislikeCountSpan = review.querySelector('.dislike-count');
+      let dislikeCount = parseInt(dislikeCountSpan.textContent);
+      dislikeCount++;
+      dislikeCountSpan.textContent = dislikeCount;
+      localStorage.setItem('review_dislike_' + id, dislikeCount);
+      localStorage.setItem('review_disliked_' + id, 'true');
+      btn.style.color = '#dc3545'; // قرمز
+    });
+  });
+</script>

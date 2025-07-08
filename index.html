@@ -58,23 +58,34 @@
     }
     /* حالت شب */
     body.dark {
-      background: #333;
-      color: #fff;
+      background: #3e3e3e;
+      color: #a203f7;
     }
     .container.dark {
-      background: #444;
-      box-shadow: 0 2px 10px #000;
+      background: #383838;
+      box-shadow: 0 2px 10px #8803f6;
     }
     h2.dark {
-      color: #f39cff;
+      color: #b104f5;
     }
     label.dark {
-      color: #eee;
+      color: #9f05fe;
     }
     input.dark {
-      background: #555;
-      color: #fff;
-      border: 1px solid #999;
+      background: #5b5b5b;
+      color: #f5f4f4;
+      border: 1px solid #565656;
+    }
+    #codeContainer {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 5px;
+      display: none;
+    }
+    #verificationResult {
+      margin-top: 5px;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -84,14 +95,24 @@
     <form id="registerForm">
       <label for="username">نام کاربری:</label>
       <input type="text" id="username" required placeholder="نام کاربری خود را وارد کنید" />
-      
-      <label for="email">ایمیل:</label>
-      <input type="email" id="email" required placeholder="ایمیل خود را وارد کنید" />
-      
-      <label for="password">رمز عبور:</label>
-      <input type="password" id="password" required placeholder="رمز عبور را وارد کنید" />
-      
-      <button type="submit">ثبت نام</button>
+
+      <label for="contact">شماره موبایل/ایمیل:</label>
+      <input type="text" id="contact" required placeholder="شماره موبایل یا ایمیل خود را وارد کنید" />
+
+      <label for="password">رمز عبور (8 رقم اجباری):</label>
+      <input type="password" id="password" required placeholder="رمز عبور خود را وارد کنید" maxlength="8" />
+
+      <button id="sendCodeBtn" type="button">دریافت کد تأیید</button>
+
+      <div id="codeContainer">
+        <p>کد تأیید شما: <span id="generatedCode" style="font-weight:bold; font-size: 1.2em;"></span></p>
+        <label for="inputCode">کد تأیید را وارد کنید:</label>
+        <input type="text" id="inputCode" maxlength="8" />
+        <button id="verifyCodeBtn" type="button">تایید کد</button>
+        <p id="verificationResult"></p>
+      </div>
+
+      <button type="submit" id="submitBtn" disabled>ثبت نام</button>
     </form>
   </div>
 
@@ -101,6 +122,17 @@
 
   <script>
     const registerForm = document.getElementById('registerForm');
+    const usernameInput = document.getElementById('username');
+    const contactInput = document.getElementById('contact');
+    const passwordInput = document.getElementById('password');
+    const sendCodeBtn = document.getElementById('sendCodeBtn');
+    const codeContainer = document.getElementById('codeContainer');
+    const generatedCodeSpan = document.getElementById('generatedCode');
+    const inputCode = document.getElementById('inputCode');
+    const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+    const verificationResult = document.getElementById('verificationResult');
+    const submitBtn = document.getElementById('submitBtn');
+
     const themeToggle = document.getElementById('themeToggle');
     const container = document.querySelector('.container');
     const heading = document.querySelector('h2');
@@ -138,9 +170,87 @@
     // بارگذاری اولیه
     loadTheme();
 
-    registerForm.addEventListener('submit', function(e) {
+    // اعتبارسنجی نام کاربری (فقط حروف فارسی یا انگلیسی، حداکثر 40 کاراکتر)
+    function validateUsername(name) {
+      const regex = /^[\u0600-\u06FFa-zA-Z\s]{1,40}$/;
+      return regex.test(name);
+    }
+
+    // اعتبارسنجی شماره موبایل (11 رقم عددی) یا ایمیل ساده
+    function validateContact(contact) {
+      const phoneRegex = /^[0-9]{11}$/;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return phoneRegex.test(contact) || emailRegex.test(contact);
+    }
+
+    // اعتبارسنجی رمز عبور (8 رقم عددی فارسی یا انگلیسی)
+    function validatePassword(pass) {
+      const passRegex = /^[0-9\u06F0-\u06F9]{8}$/;
+      return passRegex.test(pass);
+    }
+
+    // تولید کد تصادفی 8 رقمی
+    function generateRandomCode(length = 8) {
+      const chars = '0123456789';
+      let code = '';
+      for(let i=0; i<length; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return code;
+    }
+
+    let generatedCode = '';
+    let codeVerified = false;
+
+    sendCodeBtn.addEventListener('click', () => {
+      // ابتدا اعتبارسنجی فیلدها
+      const username = usernameInput.value.trim();
+      const contact = contactInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!validateUsername(username)) {
+        alert('نام کاربری مجاز نمیباشد');
+        return;
+      }
+      if (!validateContact(contact)) {
+        alert('شماره موبایل یا ایمیل معتبر وارد کنید');
+        return;
+      }
+      if (!validatePassword(password)) {
+        alert('رمز عبور باید 8 رقم باشد.');
+        return;
+      }
+
+      generatedCode = generateRandomCode(8);
+      generatedCodeSpan.textContent = generatedCode;
+      codeContainer.style.display = 'block';
+      verificationResult.textContent = '';
+      inputCode.value = '';
+      codeVerified = false;
+      submitBtn.disabled = true;
+    });
+
+    verifyCodeBtn.addEventListener('click', () => {
+      if(inputCode.value.trim() === generatedCode) {
+        verificationResult.style.color = 'green';
+        verificationResult.textContent = 'کد تأیید صحیح است.';
+        codeVerified = true;
+        submitBtn.disabled = false;
+      } else {
+        verificationResult.style.color = 'red';
+        verificationResult.textContent = 'کد تأیید اشتباه است.';
+        codeVerified = false;
+        submitBtn.disabled = true;
+      }
+    });
+
+    registerForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      alert(`ثبت نام با موفقیت انجام شد. خوش آمدید ${document.getElementById('username').value}!`);
+      if(!codeVerified) {
+        alert('لطفاً ابتدا کد تأیید را صحیح وارد و تایید کنید.');
+        return;
+      }
+      alert(`ثبت نام با موفقیت انجام شد. خوش آمدید ${usernameInput.value.trim()}!`);
       window.location.href = 'home.html';
     });
   </script>
